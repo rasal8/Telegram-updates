@@ -3,8 +3,8 @@ import schedule
 import time
 import os
 
-TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+TOKEN = os.getenv("8695697895:AAHaFamdjvspigHzEc0J0gwIRbGctYeHc9s")
+CHAT_ID = os.getenv("-1003787397285")
 
 bot = Bot(token=TOKEN)
 
