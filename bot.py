@@ -2,47 +2,37 @@ from telegram import Bot
 import schedule
 import time
 import os
+import asyncio
 
 TOKEN = os.getenv("8695697895:AAHaFamdjvspigHzEc0J0gwIRbGctYeHc9s")
 CHAT_ID = os.getenv("-1003787397285")
 
 bot = Bot(token=TOKEN)
 
-def send_message():
+async def send_message():
 
     text = """
 🔥 TODAY AI INFLUENCER CONTENT
 
 1️⃣ Morning mirror selfie
-• Loose oversized shirt
-• Sleepy vibe
-
 2️⃣ Cafe casual look
-• Black crop top
-• Jeans + candid pose
-
 3️⃣ Gym glow vibe
-• Sports bra + joggers
-• Mirror selfie
-
 4️⃣ Night balcony glam
-• Satin dress
-• Warm city lights
-
 5️⃣ Bedroom casual hot
-• White shirt + black shorts
-• Cozy apartment vibe
 
 📈 Best Posting Time:
 7:30 PM – 9:00 PM
 """
 
-    bot.send_message(
+    await bot.send_message(
         chat_id=CHAT_ID,
         text=text
     )
 
-schedule.every().day.at("06:00").do(send_message)
+def job():
+    asyncio.run(send_message())
+
+schedule.every().day.at("06:00").do(job)
 
 print("BOT RUNNING...")
 
