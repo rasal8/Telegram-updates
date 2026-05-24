@@ -4,69 +4,63 @@ import time
 import os
 from datetime import datetime
 from telegram import Bot
-from openai import OpenAI
+import google.generativeai as genai
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 bot = Bot(token=BOT_TOKEN)
 
-client = OpenAI(
-    api_key=OPENAI_API_KEY
-)
+genai.configure(api_key=GEMINI_API_KEY)
+
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 def get_indian_vibe():
 
     today = datetime.now().strftime("%A")
 
     if today in ["Saturday", "Sunday"]:
-        mood = "weekend chill, cafe, soft glam, relaxed Indian influencer vibe"
-    else:
-        mood = "productive lifestyle, casual fashion, realistic Indian daily life"
+        return "weekend cozy Indian influencer vibe, cafe mood, soft glam, relaxed energy"
 
-    return mood
+    return "productive Indian lifestyle, casual fashion, realistic daily content"
 
 async def send_update():
 
-    mood = get_indian_vibe()
+    vibe = get_indian_vibe()
 
     prompt = f"""
-Create today's AI influencer content plan for Indian Instagram audience.
+Create today's Instagram AI influencer content plan.
 
 Rules:
-- Realistic Indian girl influencer
-- Neutral middle-class realism
-- Not overly luxury
-- Not too glamorous
-- Instagram-safe attractive vibe
-- Soft sensual energy allowed
+- Indian audience focused
+- Realistic middle-class lifestyle
+- Soft sexy but Instagram safe
 - Human realistic feel
-- No AI-looking content
-- Modern Gen Z Indian audience
-- Outfit + pose + expression + lighting
-- Include captions
-- Include best posting times
-- Include hashtags
+- No luxury overload
+- No fake AI look
+- Gen Z Indian vibe
+- Natural beauty aesthetic
 
-Today's mood:
-{mood}
+Today's vibe:
+{vibe}
 
 Give:
-5 Instagram post ideas.
+5 post ideas.
+
+For every post include:
+1. Outfit
+2. Scene
+3. Pose
+4. Caption
+5. Hashtags
+6. Best posting time
+7. Detailed AI image prompt
 """
 
-    response = client.chat.completions.create(
-        model="gpt-5.5",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ]
-    )
+    response = model.generate_content(prompt)
 
-    text = response.choices[0].message.content
+    text = response.text
 
     await bot.send_message(
         chat_id=CHAT_ID,
@@ -78,7 +72,7 @@ def job():
 
 schedule.every().day.at("08:00").do(job)
 
-print("AI BOT RUNNING...")
+print("GEMINI AI BOT RUNNING...")
 
 job()
 
