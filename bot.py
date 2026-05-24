@@ -14,7 +14,7 @@ bot = Bot(token=BOT_TOKEN)
 
 genai.configure(api_key=GEMINI_API_KEY)
 
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-1.5-flash-8b")
 
 def get_indian_vibe():
 
@@ -30,41 +30,35 @@ async def send_update():
     vibe = get_indian_vibe()
 
     prompt = f"""
-Create today's Instagram AI influencer content plan.
+Create 3 Indian Instagram influencer content ideas.
 
 Rules:
-- Indian audience focused
-- Realistic middle-class lifestyle
+- Realistic Indian influencer
+- Middle-class realistic vibe
 - Soft sexy but Instagram safe
 - Human realistic feel
 - No luxury overload
-- No fake AI look
-- Gen Z Indian vibe
-- Natural beauty aesthetic
+- Gen Z Indian audience
 
 Today's vibe:
 {vibe}
 
-Give:
-5 post ideas.
-
 For every post include:
-1. Outfit
-2. Scene
-3. Pose
-4. Caption
-5. Hashtags
-6. Best posting time
-7. Detailed AI image prompt
+- Outfit
+- Pose
+- Caption
+- Hashtags
+- Best posting time
+- Detailed AI image prompt
 """
 
     response = model.generate_content(prompt)
 
-    text = response.text
+    text = response.text[:3500]
 
     await bot.send_message(
         chat_id=CHAT_ID,
-        text=text[:4000]
+        text=text
     )
 
 def job():
