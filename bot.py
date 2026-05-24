@@ -31,7 +31,7 @@ async def send_update():
 def job():
     asyncio.run(send_update())
 
-schedule.every(1).minutes.do(job)
+schedule.every().day.at("08:00").do(job)
 
 print("BOT RUNNING...")
 
