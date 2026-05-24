@@ -68,7 +68,7 @@ schedule.every().day.at("08:00").do(job)
 
 print("GEMINI AI BOT RUNNING...")
 
-job()
+# job()
 
 while True:
     schedule.run_pending()
