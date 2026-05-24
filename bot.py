@@ -14,7 +14,7 @@ bot = Bot(token=BOT_TOKEN)
 
 genai.configure(api_key=GEMINI_API_KEY)
 
-model = genai.GenerativeModel("gemini-1.5-flash-8b")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 def get_indian_vibe():
 
