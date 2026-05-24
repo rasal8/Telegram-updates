@@ -4,7 +4,7 @@ import time
 import os
 from datetime import datetime
 from telegram import Bot
-import google.generativeai as genai
+from google import genai
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
@@ -12,18 +12,16 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 bot = Bot(token=BOT_TOKEN)
 
-genai.configure(api_key=GEMINI_API_KEY)
-
-model = genai.GenerativeModel("models/gemini-1.5-flash")
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 def get_indian_vibe():
 
     today = datetime.now().strftime("%A")
 
     if today in ["Saturday", "Sunday"]:
-        return "weekend cozy Indian influencer vibe, cafe mood, soft glam, relaxed energy"
+        return "weekend cozy Indian influencer vibe, cafe mood, soft glam"
 
-    return "productive Indian lifestyle, casual fashion, realistic daily content"
+    return "productive Indian lifestyle, casual fashion"
 
 async def send_update():
 
@@ -37,7 +35,6 @@ Rules:
 - Middle-class realistic vibe
 - Soft sexy but Instagram safe
 - Human realistic feel
-- No luxury overload
 - Gen Z Indian audience
 
 Today's vibe:
@@ -52,7 +49,10 @@ For every post include:
 - Detailed AI image prompt
 """
 
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt
+    )
 
     text = response.text[:3500]
 
