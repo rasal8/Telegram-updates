@@ -64,7 +64,7 @@ For every post include:
 def job():
     asyncio.run(send_update())
 
-schedule.every().day.at("08:00").do(job)
+schedule.every().day.at("04:30").do(job)
 
 print("GEMINI AI BOT RUNNING...")
 
